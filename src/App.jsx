@@ -84,14 +84,14 @@ function App() {
   
 
   return (
-    <div>
+    <div className="container">
       <header style={{ borderBottom: "2px solid #ccc", paddingBottom: "10px", marginBottom: "10px" }}>
       <div className="app-header">
         <img src="/dudezlogo.png" alt="Dudez O' Plenty Logo" className="app-logo" />
       </div>
       <div style={{ textAlign: 'center' }}>
         <button onClick={() => handleViewChange("home")}>🏠</button>
-        <button onClick={() => handleViewChange("individualLeaderboard")}>🏌️‍♂️</button>
+        <button onClick={() => handleViewChange("individualLeaderboard")}>💍🏌🏼‍♂️</button>
         <button onClick={() => handleViewChange("teamLeaderboard")}>🏆🏌️‍♂️🏌️‍♂️🏌️‍♂️</button>
         </div>
         

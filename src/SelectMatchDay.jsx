@@ -23,7 +23,7 @@ function SelectMatchDay({ onSelectMatchDay, onAdmin }) {
   }, []);
 
   return (
-    <div className="constainer">
+    <div className="container">
       <h2>Select a Match Day</h2>
       {matchDays.map((day, index) => (
         <button key={index} onClick={() => {

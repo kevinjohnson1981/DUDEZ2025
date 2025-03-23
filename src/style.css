@@ -52,7 +52,8 @@ body {
 /* Center all main content */
 .container {
   max-width: 1000px; /* Control width */
-  margin: 0 auto; /* Center horizontally */
+  margin-left: auto; /* Center horizontally */
+  margin-right: auto;
   padding: 0px;
   text-align: center; /* Center text */
 }
@@ -84,7 +85,7 @@ select {
   margin: 5px;
   width: auto; /* Fit content */
   max-width: 200px; /* Optional: prevent too wide */
-  border: 2px solid rgb(0, 129, 6); /* Light gray border */
+  border: 2px solid rgb(158, 158, 158); /* Light gray border */
   border-radius: 10px; /* ✅ Rounded corners */
   background-color: #fff; /* White background */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow */
@@ -129,12 +130,14 @@ button {
 }
 
 button:hover {
-  background-color: #c46363;
+  background-color: #b8b8b8;
 }
 
 button:focus,
 button:focus-visible {
-  outline: 1px auto -webkit-focus-ring-color;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.5);
+  broder: 2px black;
 }
 
 .vertical-button-stack {
@@ -252,7 +255,7 @@ input.handicap-input {
   margin-bottom: 12px;
   box-sizing: border-box;
 
-  border: 3px solid rgb(0, 129, 6); /* Light gray border */
+  border: 3px solid rgb(255, 255, 255); /* Light gray border */
   border-radius: 10px; /* ✅ Rounded corners */
   background-color: #fff; /* White background */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow */
@@ -319,7 +322,7 @@ select {
   padding: 10px 12px; /* Adjust padding for better spacing */
   width: 100%; /* Make dropdown fill available space */
   max-width: 300px; /* Optional: prevent it from getting too big */
-  border: 2px solid darkgreen; /* Match your box styling */
+  border: 2px solid rgb(255, 255, 255); /* Match your box styling */
   border-radius: 10px; /* Rounded corners like inputs */
   background-color: white;
   color: black; /* Text color */
@@ -398,7 +401,7 @@ input[type=number] {
   text-align: center;
   vertical-align: middle;
   font-size: 12px;
-  border: 4px solid rgb(73, 73, 73);
+  border: 4px solid rgb(107, 107, 107);
 }
 
 /* Keep vertical text in header aligned */
@@ -500,17 +503,17 @@ p, td, th, input, button {
 .body-table td {
   padding: 5px;
   font-size: 12px;
-  border: 2px solid rgb(0, 129, 6);
+  border: 2px solid rgb(0, 0, 0);
   text-align: center;
 }
 
 .admin-button {
   font-size: 10px;
   padding: 4px 8px;
-  opacity: 0.5;
+  opacity: 0.25;
   background-color: transparent;
-  color: darkgreen;
-  border: 1px solid darkgreen;
+  color: rgb(104, 104, 104);
+  border: 1px solid rgb(104, 104, 104);
   border-radius: 6px;
   position: center;
   bottom: 10px;
@@ -520,7 +523,7 @@ p, td, th, input, button {
 
 .admin-button:hover {
   opacity: 1;
-  background-color: darkgreen;
+  background-color: rgb(133, 133, 133);
   color: white;
   cursor: pointer;
 }
