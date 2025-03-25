@@ -573,11 +573,11 @@ p, td, th, input, button {
 
 .stableford-breakdown-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 1px 0px;
   margin: 10px auto;
   font-size: 0.6em;
   text-align: center;
-  max-width: 200px;
+  max-width: 300px;
   color: #3b3b3b;
 }
