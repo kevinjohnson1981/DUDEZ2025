@@ -9,11 +9,11 @@ body {
 
 /* Player name cell color for Ball Busterz */
 .player-name-header.team-red {
-  background-color: rgb(255, 0, 0);
-  color: rgb(0, 0, 0);
+  background-color: red;
+  color: lightgray;
 }
 .player-name-header.team-gold {
-  background-color: rgb(231, 235, 11);
+  background-color: yellow;
   color: black;
 }
 
@@ -24,12 +24,12 @@ body {
 
 .player-name-header.team-blue {
   background-color: rgb(1, 162, 255);
-  color: rgb(0, 0, 0);
+  color: lightgreen;
 }
 
 .team-ballbusterz td {
   background-color: rgb(255, 0, 0);
-  color: rgb(0, 0, 0);
+  color: lightgray;
 }
 
 .team-goldentees td {
@@ -44,8 +44,33 @@ body {
 
 .team-justthetips td {
   background-color: rgb(1, 162, 255);
-  color: rgb(0, 0, 0);
+  color: lightgreen;
 }
+
+.team-red {
+  background-color: red;
+  color: lightgray;
+  border: 2px solid black;
+}
+
+.team-gold {
+  background-color: rgb(231, 235, 11);
+  color: black;
+  border: 2px solid white;
+}
+
+.team-black {
+  background-color: black;
+  color: lightgray;
+  border: 2px solid white;
+}
+
+.team-blue {
+  background-color: rgb(1, 162, 255);
+  color: lightgreen;
+  border: 2px solid lightgreen;
+}
+
 
 
 
@@ -222,7 +247,7 @@ tfoot, thead {
 .course-details p, 
 .course-details h3, 
 .course-details label {
-  margin-bottom: 8px;
+  margin-bottom: 2px;
   margin-top: 0;
 }
 
@@ -350,7 +375,7 @@ select {
 }
 
 .match-status {
-  font-size: 20px;
+  font-size: 15px;
   font-weight: bold;
   color: rgb(75, 75, 75); /* Make it pop */
   margin: 15px 0;
@@ -402,7 +427,7 @@ input[type=number] {
   text-align: center;
   vertical-align: middle;
   font-size: 12px;
-  border: 4px solid rgb(107, 107, 107);
+  border: 4px solid black;
 }
 
 /* Keep vertical text in header aligned */
@@ -413,7 +438,7 @@ input[type=number] {
 }
 
 .player-total {
-  background-color: #d0f0d2; /* light green highlight */
+  background-color: #d2d2d2; /* light green highlight */
   font-weight: bold;
   font-size: 14px;
   padding: 4px;
@@ -482,8 +507,8 @@ p, td, th, input, button {
 
 .header-table {
   width: 100%;
-  border: 2px solid rgb(75, 75, 75);
-  background-color: white;
+  border: 2px solid black;
+  background-color: rgb(0, 0, 0);
   table-layout: fixed;
 }
 
@@ -496,7 +521,7 @@ p, td, th, input, button {
 .body-table {
   width: 100%;
   border-collapse: collapse;
-  background-color: white;
+  background-color: rgb(255, 255, 255);
   table-layout: fixed;
 }
 
@@ -527,4 +552,32 @@ p, td, th, input, button {
   background-color: rgb(133, 133, 133);
   color: white;
   cursor: pointer;
+}
+
+.stableford-team-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 🔁 Force exactly 2 columns */
+  gap: 5px;
+  justify-content: center;
+  margin: 1px auto 1px;
+  max-width: 600px; /* Optional: keeps it tight on large screens */
+}
+
+.team-score-box {
+  border-radius: 10px;
+  padding: 1px;
+  text-align: center;
+  font-weight: bold;
+  box-shadow: 2px 2px 6px rgba(0,0,0,0.1);
+}
+
+.stableford-breakdown-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px 0px;
+  margin: 10px auto;
+  font-size: 0.6em;
+  text-align: center;
+  max-width: 200px;
+  color: #3b3b3b;
 }

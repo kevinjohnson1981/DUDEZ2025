@@ -129,6 +129,7 @@ function App() {
           matchType={selectedMatchType}
           setScoresInApp={setCurrentScores}
           setTeamPointsInApp={setCurrentTeamPoints}
+          teamPoints={currentTeamPoints}
         />
 
       ) : view === "matchType" && selectedDate ? (

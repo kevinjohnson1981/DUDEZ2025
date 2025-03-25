@@ -4,7 +4,7 @@ import { collection, query, where, getDocs, doc, setDoc, getDoc } from "firebase
 
 console.log("🔥 ScoreEntry is being rendered");
 
-function ScoreEntry({ selectedDate, matchType, setScoresInApp, setTeamPointsInApp }) {
+function ScoreEntry({ selectedDate, matchType, setScoresInApp, setTeamPointsInApp, teamPoints }) {
   const [matchData, setMatchData] = useState(null);
   const [players, setPlayers] = useState([]);
   const [teamPlayers, setTeamPlayers] = useState({ team1: [], team2: [] });
@@ -133,24 +133,32 @@ function ScoreEntry({ selectedDate, matchType, setScoresInApp, setTeamPointsInAp
   useEffect(() => {
     if (matchType === "stableford" && matchData && players.length > 0) {
       const teamTotals = {};
-
+  
       matchData.stablefordPlayers.forEach(({ teamName, player }) => {
         const playerObj = players.find(p => p.name === player);
         if (!playerObj) return;
-
-        const points = getStablefordPoints(player, parseInt(playerObj.handicap));
+  
+        const totalPoints = getStablefordPoints(player, parseInt(playerObj.handicap));
+  
+        // 🔢 Convert individual player points into tiered team points
+        let teamPoints = 0;
+        if (totalPoints >= 18.5) teamPoints = 3;
+        else if (totalPoints >= 12.5) teamPoints = 2;
+        else if (totalPoints >= 6.5) teamPoints = 1;
+        else if (totalPoints >= 0.5) teamPoints = 0.5;
+  
         if (!teamTotals[teamName]) {
           teamTotals[teamName] = { total: 0 };
         }
-
-        teamTotals[teamName].total += points;
+  
+        teamTotals[teamName].total += teamPoints;
       });
-
-      console.log("🔥 Stableford teamPoints (useEffect):", teamTotals);
+  
+      console.log("🔥 Stableford teamPoints (tiered):", teamTotals);
       setTeamPointsInApp(teamTotals);
     }
   }, [scores, matchData, players, matchType]);
-
+  
   const updateScore = (playerName, holeIndex, grossScore) => {
     const gross = parseInt(grossScore);
     if (isNaN(gross)) return;
@@ -210,13 +218,13 @@ function ScoreEntry({ selectedDate, matchType, setScoresInApp, setTeamPointsInAp
   
       const diff = net - hole.par;
   
-      if (diff >= 2) return points + 0;
-      if (diff === 1) return points + 1;
-      if (diff === 0) return points + 2;
-      if (diff === -1) return points + 3;
-      if (diff === -2) return points + 4;
-      if (diff === -3) return points + 5;
-      if (diff <= -4) return points + 6;
+      if (diff >= 2) return points - 1;
+      if (diff === 1) return points + 0;
+      if (diff === 0) return points + 0.5;
+      if (diff === -1) return points + 1;
+      if (diff === -2) return points + 2;
+      if (diff === -3) return points + 3;
+      if (diff <= -4) return points + 4;
   
       return points;
     }, 0);
@@ -323,13 +331,12 @@ function ScoreEntry({ selectedDate, matchType, setScoresInApp, setTeamPointsInAp
 
     return (
       <div className="match-status">
-        
-        <h5>
+        <h4>
           Front 9 – {teamNames[0]}: {front9 ? front9.team1 : "-"} | {teamNames[1]}: {front9 ? front9.team2 : "-"}
-        </h5>
-        <h5>
+        </h4>
+        <h4>
           Back 9 – {teamNames[0]}: {back9 ? back9.team1 : "-"} | {teamNames[1]}: {back9 ? back9.team2 : "-"}
-        </h5>
+        </h4>
       </div>
     );    
   })();
@@ -338,11 +345,37 @@ function ScoreEntry({ selectedDate, matchType, setScoresInApp, setTeamPointsInAp
     <div className="container">
 
       <div className="course-details">
-        <h2>{matchData.course.course_name}</h2>
+        <h3>{matchData.course.course_name}</h3>
         <p>{matchData.teeBox.tee_name} - {matchData.teeBox.total_yards} yards</p>
       </div>
 
       {bestBallStatusBlock}
+
+      
+      {matchType === "stableford" && teamPoints && (
+        <div className="stableford-team-grid">
+          {Object.entries(teamPoints).map(([teamName, value]) => (
+            <div key={teamName} className={`team-score-box ${
+              teamName === "Ball Busterz" ? "team-red" :
+              teamName === "Golden Tees" ? "team-gold" :
+              teamName === "Black Tee Titans" ? "team-black" :
+              teamName === "Just the Tips" ? "team-blue" : ""
+            }`}>
+              <span className="team-name">{teamName}: </span>
+              <span className="team-points">{value.total} pts</span>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {matchType === "stableford" && (
+        <div className="stableford-breakdown-grid">
+          <div><strong>0.5–6 pts:</strong> 0.5 team point</div>
+          <div><strong>6.5–12 pts:</strong> 1 team point</div>
+          <div><strong>12.5–18 pts:</strong> 2 team points</div>
+          <div><strong>18.5+ pts:</strong> 3 team points</div>
+        </div>
+      )}
 
     <div className="scorecard-wrapper">
       <table border="1" className="header-table">
@@ -415,13 +448,13 @@ function ScoreEntry({ selectedDate, matchType, setScoresInApp, setTeamPointsInAp
                 let points = "";
                 if (matchType === "stableford" && net !== "") {
                   const diff = net - hole.par;
-                  if (diff >= 2) points = 0;
-                  else if (diff === 1) points = 1;
-                  else if (diff === 0) points = 2;
-                  else if (diff === -1) points = 3;
-                  else if (diff === -2) points = 4;
-                  else if (diff === -3) points = 5;
-                  else if (diff <= -4) points = 6;
+                  if (diff >= 2) points = -1;
+                  else if (diff === 1) points = 0;
+                  else if (diff === 0) points = 0.5;
+                  else if (diff === -1) points = 1;
+                  else if (diff === -2) points = 2;
+                  else if (diff === -3) points = 3;
+                  else if (diff <= -4) points = 4;
                 }
 
                 return (
