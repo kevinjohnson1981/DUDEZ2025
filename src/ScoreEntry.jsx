@@ -143,9 +143,7 @@ function ScoreEntry({ selectedDate, matchType, setScoresInApp, setTeamPointsInAp
         // 🔢 Convert individual player points into tiered team points
         let teamPoints = 0;
         if (totalPoints >= 18.5) teamPoints = 3;
-        else if (totalPoints >= 15.5) teamPoints = 2.5;
         else if (totalPoints >= 12.5) teamPoints = 2;
-        else if (totalPoints >= 9.5) teamPoints = 1.5;
         else if (totalPoints >= 6.5) teamPoints = 1;
         else if (totalPoints >= 0.5) teamPoints = 0.5;
   
@@ -372,6 +370,9 @@ function ScoreEntry({ selectedDate, matchType, setScoresInApp, setTeamPointsInAp
 
       {matchType === "stableford" && (
         <div className="stableford-breakdown-grid">
+          <div><strong>+2 = -1</strong> / +1 = 0</div>
+          <div><strong>E = +0.5</strong> / -1 = +1</div>
+          <div><strong>-2 = +2</strong> / -3 = +3</div>
           <div><strong>0.5–6 pts:</strong> 0.5 team point</div>
           <div><strong>6.5–9 pts:</strong> 1 team point</div>
           <div><strong>9.5–12 pts:</strong> 1.5 team point</div>
