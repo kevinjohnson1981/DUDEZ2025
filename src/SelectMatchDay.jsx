@@ -36,9 +36,20 @@ function SelectMatchDay({ onSelectMatchDay, onAdmin }) {
       <hr />
 
       <div className="admin-button-container">
-        <button className="admin-button" onClick={onAdmin}>
-          Admin
-        </button>
+      <button
+        className="admin-button"
+        onClick={() => {
+          const password = prompt("Enter Admin Password:");
+          if (password === "golf2025") {
+            onAdmin();
+          } else {
+            alert("Incorrect password.");
+          }
+        }}
+      >
+        Admin
+      </button>
+
       </div>
       </div>
 

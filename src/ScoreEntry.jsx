@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { db } from "./firebase";
 import { collection, query, where, getDocs, doc, setDoc, getDoc } from "firebase/firestore";
+import * as XLSX from "xlsx";
+import html2canvas from "html2canvas";
+import { useRef } from "react";
+
 
 console.log("🔥 ScoreEntry is being rendered");
 
@@ -158,6 +162,8 @@ function ScoreEntry({ selectedDate, matchType, setScoresInApp, setTeamPointsInAp
       setTeamPointsInApp(teamTotals);
     }
   }, [scores, matchData, players, matchType]);
+
+  const scorecardRef = useRef(null);
   
   const updateScore = (playerName, holeIndex, grossScore) => {
     const gross = parseInt(grossScore);
@@ -318,6 +324,84 @@ function ScoreEntry({ selectedDate, matchType, setScoresInApp, setTeamPointsInAp
     }
   };
 
+  const exportToExcel = () => {
+    const wb = XLSX.utils.book_new();
+  
+    const wsData = [
+      ["Hole", "Yards", "Par", "HCP", ...players.map(p => p.name)],
+    ];
+  
+    holes.forEach((hole, idx) => {
+      const row = [
+        idx + 1,
+        hole.yardage,
+        hole.par,
+        hole.handicap,
+        ...players.map(p => {
+          const gross = scores[p.name]?.[idx]?.gross ?? "";
+          const net = scores[p.name]?.[idx]?.net ?? "";
+          return `${gross}${net !== "" ? ` (${net})` : ""}`;
+        })
+      ];
+      wsData.push(row);
+    });
+  
+    // Add total scores row
+    const totalRow = [
+      "Total",
+      "", "", "",
+      ...players.map(p =>
+        `${getGrossTotal(p.name)} / ${getNetTotal(p.name, parseInt(p.handicap))}`
+      )
+    ];
+    wsData.push([]);
+    wsData.push(totalRow);
+  
+    const ws = XLSX.utils.aoa_to_sheet(wsData);
+    XLSX.utils.book_append_sheet(wb, ws, "Scorecard");
+  
+    XLSX.writeFile(wb, `scorecard_${selectedDate}_${matchType}.xlsx`);
+  };
+
+  const exportScorecardAsImage = async () => {
+    const scorecard = scorecardRef.current;
+    if (!scorecard) return;
+  
+    const scrollableBody = scorecard.querySelector(".scrollable-body");
+    if (!scrollableBody) return;
+  
+    // Save original styles
+    const originalScrollOverflow = scrollableBody.style.overflow;
+    const originalScrollMaxHeight = scrollableBody.style.maxHeight;
+  
+    // Expand scrollable content
+    scrollableBody.style.overflow = "visible";
+    scrollableBody.style.maxHeight = "none";
+  
+    try {
+      const canvas = await html2canvas(scorecard, {
+        scale: 2,
+        useCORS: true,
+        windowWidth: scorecard.scrollWidth
+      });
+  
+      const link = document.createElement("a");
+      link.download = `scorecard_${selectedDate}_${matchType}.png`;
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+    } catch (error) {
+      console.error("Failed to export image:", error);
+    } finally {
+      // Restore original scroll
+      scrollableBody.style.overflow = originalScrollOverflow;
+      scrollableBody.style.maxHeight = originalScrollMaxHeight;
+    }
+  };
+  
+  
+  
+  
+
   const bestBallStatusBlock = (() => {
     if (!(matchType === "bestBall1" || matchType === "bestBall2") || !matchData?.bestBallMatches) return null;
 
@@ -342,7 +426,7 @@ function ScoreEntry({ selectedDate, matchType, setScoresInApp, setTeamPointsInAp
   })();
 
   return (
-    <div className="container">
+    <div className="container" ref={scorecardRef}>
 
       <div className="course-details">
         <h3>{matchData.course.course_name}</h3>
@@ -491,9 +575,14 @@ function ScoreEntry({ selectedDate, matchType, setScoresInApp, setTeamPointsInAp
         </tbody>
       </table>
       </div>
+      </div>
 
       <button onClick={saveScoresToFirebase}>Save Scores</button>
-    </div>
+      <button onClick={exportToExcel}>Download Excel</button>
+      <button onClick={exportScorecardAsImage}>Download Image</button>
+
+
+    
     </div>
   );
 }
