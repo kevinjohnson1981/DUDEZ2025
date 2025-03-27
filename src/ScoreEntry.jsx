@@ -577,7 +577,7 @@ function ScoreEntry({ selectedDate, matchType, setScoresInApp, setTeamPointsInAp
       </div>
       </div>
 
-      <button onClick={saveScoresToFirebase}>Save Scores</button>
+      {/*<button onClick={saveScoresToFirebase}>Save Scores</button> */}
       <button onClick={exportToExcel}>Download Excel</button>
       <button onClick={exportScorecardAsImage}>Download Image</button>
 
