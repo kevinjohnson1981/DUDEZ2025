@@ -71,6 +71,25 @@ body {
   border: 2px solid lightgreen;
 }
 
+.highlight-red {
+  background-color: pink;
+  color: lightgray;
+}
+
+.highlight-gold {
+  background-color: lightyellow;
+  color: black;
+}
+
+.highlight-black {
+  background-color: gray;
+  color: lightgray;
+}
+
+.highlight-blue {
+  background-color: lightblue;
+  color: lightgreen;
+}
 
 
 
@@ -476,9 +495,9 @@ input[type=number] {
 }
 
 .app-logo {
-  width: 300px; /* Adjust as needed */
+  width: 600px; /* Adjust as needed */
   height: auto; /* Maintain aspect ratio */
-  margin: 20px auto; /* Center and add space */
+  margin: 10px auto; /* Center and add space */
   display: block; /* Make sure it centers */
 }
 

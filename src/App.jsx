@@ -87,7 +87,7 @@ function App() {
     <div className="container">
       <header style={{ borderBottom: "5px solid #ccc", paddingBottom: "10px", marginBottom: "10px" }}>
       <div className="app-header">
-        <img src="/dudezlogo2.png" alt="Dudez O' Plenty Logo" className="app-logo" />
+        <img src="/dudezlogo4.png" alt="Dudez O' Plenty Logo" className="app-logo" />
       </div>
       <div style={{ textAlign: 'center' }}>
         <button onClick={() => handleViewChange("home")}>🏠</button>

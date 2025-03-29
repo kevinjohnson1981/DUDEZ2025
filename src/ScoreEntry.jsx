@@ -533,6 +533,34 @@ function ScoreEntry({ selectedDate, matchType, setScoresInApp, setTeamPointsInAp
                 const gross = scores[p.name]?.[idx]?.gross ?? "";
                 const net = scores[p.name]?.[idx]?.net ?? "";
                 
+                let highlightClass = "";
+
+                // ✅ Only calculate best net highlights for best ball matches
+                if (matchType === "bestBall1" || matchType === "bestBall2") {
+                  const netScores = players
+                    .map(player => ({
+                      name: player.name,
+                      net: scores[player.name]?.[idx]?.net,
+                      team: player.teamName
+                    }))
+                    .filter(entry => entry.net !== undefined && entry.net !== null && !isNaN(entry.net));
+
+                  const bestNet = Math.min(...netScores.map(e => e.net));
+                  const winners = netScores.filter(e => e.net === bestNet);
+
+                  const isBest = winners.length === 1 && parseInt(net) === bestNet;
+                  const teamName = p.teamName || "";
+
+                  if (isBest) {
+                    highlightClass =
+                      teamName === "Ball Busterz" ? "highlight-red" :
+                      teamName === "Golden Tees" ? "highlight-gold" :
+                      teamName === "Black Tee Titans" ? "highlight-black" :
+                      teamName === "Just the Tips" ? "highlight-blue" :
+                      "";
+                  }
+                }
+
 
                 let points = "";
                 if (matchType === "stableford" && net !== "") {
@@ -547,7 +575,7 @@ function ScoreEntry({ selectedDate, matchType, setScoresInApp, setTeamPointsInAp
                 }
 
                 return (
-                  <td key={p.name}>
+                  <td key={p.name} className={highlightClass}>
                     
                     <input
                       type="number"
@@ -558,7 +586,7 @@ function ScoreEntry({ selectedDate, matchType, setScoresInApp, setTeamPointsInAp
                       onChange={(e) => updateScore(p.name, idx, e.target.value)}
                     />
                     
-                    <div style={{ fontSize: "0.75em", color: "gray" }}>
+                    <div style={{ fontSize: "0.75em", color: "black" }}>
                       {net !== "" && <>Net: {net}</>}
                       {matchType === "stableford" && net !== "" && (
                         <>
