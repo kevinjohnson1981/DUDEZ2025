@@ -495,9 +495,9 @@ input[type=number] {
 }
 
 .app-logo {
-  width: 330px; /* Adjust as needed */
+  width: 300px; /* Adjust as needed */
   height: auto; /* Maintain aspect ratio */
-  margin: 0px auto; /* Center and add space */
+  margin: 10px auto; /* Center and add space */
   display: block; /* Make sure it centers */
 }
 
@@ -599,4 +599,32 @@ p, td, th, input, button {
   text-align: center;
   max-width: 300px;
   color: #3b3b3b;
+}
+
+.hole-image-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.hole-image-modal {
+  background: white;
+  padding: 1rem;
+  border-radius: 10px;
+  max-width: 90%;
+  max-height: 90%;
+  text-align: center;
+}
+
+.hole-image-modal img {
+  max-width: 100%;
+  max-height: 80vh;
+  border-radius: 8px;
 }

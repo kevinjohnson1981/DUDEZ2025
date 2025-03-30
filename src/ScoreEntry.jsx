@@ -15,6 +15,10 @@ function ScoreEntry({ selectedDate, matchType, setScoresInApp, setTeamPointsInAp
   const [scores, setScores] = useState({});
   const [loading, setLoading] = useState(true);
   const holes = matchData?.teeBox?.holes || [];
+  const [holeImages, setHoleImages] = useState({});
+  const [selectedHoleImage, setSelectedHoleImage] = useState(null);
+
+
 
   useEffect(() => {
     const fetchMatchData = async () => {
@@ -25,6 +29,8 @@ function ScoreEntry({ selectedDate, matchType, setScoresInApp, setTeamPointsInAp
         if (!querySnapshot.empty) {
           const match = querySnapshot.docs[0].data();
           setMatchData(match);
+
+          setHoleImages(match.holeImages || {});
 
           if (matchType === "bestBall1" || matchType === "bestBall2") {
             const matchIndex = matchType === "bestBall1" ? 0 : 1;
@@ -525,7 +531,14 @@ function ScoreEntry({ selectedDate, matchType, setScoresInApp, setTeamPointsInAp
         <tbody>
           {holes.map((hole, idx) => (
             <tr key={idx}>
-              <td className="narrow-column">{idx + 1}</td>
+              <td className="narrow-column hole-number" onClick={() => {
+                const imgUrl = matchData.holeImages?.[idx + 1]; // Hole numbers are 1-indexed
+                if (imgUrl) {
+                  setSelectedHoleImage(imgUrl);
+                }
+              }}>
+                {idx + 1}
+              </td>
               <td className="narrow-column">{hole.yardage}</td>
               <td className="narrow-column">{hole.par}</td>
               <td className="narrow-column">{hole.handicap}</td>
@@ -603,6 +616,14 @@ function ScoreEntry({ selectedDate, matchType, setScoresInApp, setTeamPointsInAp
         </tbody>
       </table>
       </div>
+      {selectedHoleImage && (
+        <div className="hole-image-overlay" onClick={() => setSelectedHoleImage(null)}>
+          <div className="hole-image-modal">
+            <img src={selectedHoleImage} alt="Hole view" />
+            <button onClick={() => setSelectedHoleImage(null)}>Return to Match</button>
+          </div>
+        </div>
+      )}
       </div>
 
       {/*<button onClick={saveScoresToFirebase}>Save Scores</button> */}
