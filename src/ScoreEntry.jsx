@@ -545,35 +545,39 @@ function ScoreEntry({ selectedDate, matchType, setScoresInApp, setTeamPointsInAp
               {players.map((p) => {
                 const gross = scores[p.name]?.[idx]?.gross ?? "";
                 const net = scores[p.name]?.[idx]?.net ?? "";
-                
+
                 let highlightClass = "";
 
                 // ✅ Only calculate best net highlights for best ball matches
                 if (matchType === "bestBall1" || matchType === "bestBall2") {
-                  const netScores = players
-                    .map(player => ({
-                      name: player.name,
-                      net: scores[player.name]?.[idx]?.net,
-                      team: player.teamName
-                    }))
-                    .filter(entry => entry.net !== undefined && entry.net !== null && !isNaN(entry.net));
+                  const team1Scores = teamPlayers.team1
+                    .map(name => ({ name, net: scores[name]?.[idx]?.net }))
+                    .filter(entry => entry.net != null && !isNaN(entry.net));
+                  const team2Scores = teamPlayers.team2
+                    .map(name => ({ name, net: scores[name]?.[idx]?.net }))
+                    .filter(entry => entry.net != null && !isNaN(entry.net));
 
-                  const bestNet = Math.min(...netScores.map(e => e.net));
-                  const winners = netScores.filter(e => e.net === bestNet);
+                  const team1Best = Math.min(...team1Scores.map(e => e.net));
+                  const team2Best = Math.min(...team2Scores.map(e => e.net));
 
-                  const isBest = winners.length === 1 && parseInt(net) === bestNet;
-                  const teamName = p.teamName || "";
+                  let winningTeam = null;
+                  if (team1Best < team2Best) winningTeam = "team1";
+                  else if (team2Best < team1Best) winningTeam = "team2";
 
-                  if (isBest) {
+                  const isWinner = (
+                    (winningTeam === "team1" && teamPlayers.team1.includes(p.name)) ||
+                    (winningTeam === "team2" && teamPlayers.team2.includes(p.name))
+                  );
+
+                  if (isWinner) {
+                    const teamName = p.teamName || "";
                     highlightClass =
                       teamName === "Ball Busterz" ? "highlight-red" :
                       teamName === "Golden Tees" ? "highlight-gold" :
                       teamName === "Black Tee Titans" ? "highlight-black" :
-                      teamName === "Just the Tips" ? "highlight-blue" :
-                      "";
+                      teamName === "Just the Tips" ? "highlight-blue" : "";
                   }
                 }
-
 
                 let points = "";
                 if (matchType === "stableford" && net !== "") {
