@@ -34,6 +34,25 @@ function SelectMatchDay({ onSelectMatchDay, onAdmin }) {
         </button>
       ))}
       <hr />
+      <div><strong><h3>LITCHFIELD BEACH AND GOLF RESORT</h3></strong></div>
+      <div className="housing-grid">
+          <div><strong><h2>CONDO 1</h2></strong></div>
+          <div><strong><h2>CONDO 2</h2></strong></div>
+          <div><strong><h2>CONDO 3</h2></strong></div>
+          <div><strong>JIM RABON</strong></div>
+          <div><strong>JESSE BOUK</strong></div>
+          <div><strong>KEVIN JOHNSON</strong></div>
+          <div><strong>ADAM HALL</strong></div>
+          <div><strong>BRIAN ARMADA</strong></div>
+          <div><strong>MATTHEW JORDAN</strong></div>
+          <div><strong>MIKE ZELI</strong></div>
+          <div><strong>RICHARD ARMADA</strong></div>
+          <div><strong>JEREMY BENNETT</strong></div>
+          <div><strong>KEN CHARETTE</strong></div>
+          <div><strong>LUCA BRADLEY</strong></div>
+          <div><strong>JAMES POWERS</strong></div>
+        </div>
+      <hr />
 
       <div className="admin-button-container">
       <button
