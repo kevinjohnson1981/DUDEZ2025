@@ -153,7 +153,9 @@ function ScoreEntry({ selectedDate, matchType, setScoresInApp, setTeamPointsInAp
         // 🔢 Convert individual player points into tiered team points
         let teamPoints = 0;
         if (totalPoints >= 18.5) teamPoints = 3;
+        else if (totalPoints >= 15.5) teamPoints = 2.5;
         else if (totalPoints >= 12.5) teamPoints = 2;
+        else if (totalPoints >= 9.5) teamPoints = 1.5;
         else if (totalPoints >= 6.5) teamPoints = 1;
         else if (totalPoints >= 0.5) teamPoints = 0.5;
   
