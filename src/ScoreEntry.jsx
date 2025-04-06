@@ -605,8 +605,18 @@ function ScoreEntry({ selectedDate, matchType, setScoresInApp, setTeamPointsInAp
                       onChange={(e) => updateScore(p.name, idx, e.target.value)}
                     />
                     
-                    <div style={{ fontSize: "0.75em", color: "black" }}>
+                    <div style={{ fontSize: "1.0em", color: "black" }}>
                       {net !== "" && <>Net: {net}</>}
+                      <br />
+                      {/* Handicap strokes */}
+                      {(() => {
+                        const playerHandicap = parseInt(p.handicap || 0);
+                        const holeHcp = holes[idx]?.handicap || 0;
+                        let strokesGiven = 0;
+                        if (playerHandicap >= holeHcp) strokesGiven = 1;
+                        if (playerHandicap >= holeHcp + 18) strokesGiven = 2;
+                        return <span style={{ fontSize: "0.65em" }}>Strokes: {strokesGiven}</span>;
+                      })()}
                       {matchType === "stableford" && net !== "" && (
                         <>
                           <br />
@@ -614,6 +624,7 @@ function ScoreEntry({ selectedDate, matchType, setScoresInApp, setTeamPointsInAp
                         </>
                       )}
                     </div>
+
                   </td>
                 );
               })}
