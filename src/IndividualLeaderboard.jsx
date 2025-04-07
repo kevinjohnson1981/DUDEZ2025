@@ -6,6 +6,7 @@ import { onSnapshot } from "firebase/firestore";
 function IndividualLeaderboard() {
   const [leaderboardData, setLeaderboardData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const PAR = 72; // or change if your event uses a different par
 
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, "scores"), (querySnapshot) => {
@@ -117,11 +118,16 @@ function IndividualLeaderboard() {
                 const score = player.scoresByDay[date];
                 return (
                   <td key={date}>
-                    {score ? `${score.gross} / ${score.net}` : '-'}
+                    {score
+                      ? `${score.gross}  /  ${score.net} (${score.net - PAR >= 0 ? "+" : ""}${score.net - PAR})`
+                      : '-'}
                   </td>
                 );
               })}
-              <td>{player.totalGross} / {player.totalNet}</td>
+              <td>
+                {player.totalNet - PAR * allDates.length >= 0 ? "+" : ""}
+                {player.totalNet - PAR * allDates.length}
+              </td>
             </tr>
           ))}
         </tbody>
